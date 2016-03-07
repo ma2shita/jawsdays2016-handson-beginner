@@ -1,0 +1,38 @@
+AWS IoTの設定
+=============
+
+本章のゴール: **AWS IoTでMQTTによる受信ができることを確認する**
+
+作業の位置づけ;
+
+.. image:: images/bx1_05_highlevelarchitecture.png
+
+準備
+----
+
+AWS IoTの設定前に決めておくこと
+```````````````````````````````
+
+* 使用するトピック名 (本例では ``handson/device01`` としています)
+
+:doc:`06` へ進む
+
+.. _awsiot_ts:
+
+トラブルシュート
+----------------
+
+またAWS IoT側に送信されているかの確認には、CloudWatchを使用する他、 **mosquitto_sub** コマンドが使えます
+
+``mosquitto_sub --cafile VeriSign-Class_3-Public-Primary-Certification-Authority-G5.pem --cert ANY-certificate.pem.crt --key ANY-private.pem.key -h ANY.iot.ap-northeast-1.amazonaws.com -p 8883 -q 1 -d -t handson/device01``
+
+mosquitto_sub でサーバに接続できない
+`````````````````````````````````````
+
+証明書がINACTIVEである可能性があります。AWS IoT上で当該する証明書をActivateしてください
+
+mosquitto_sub で ``CONNECT`` が連続で表示され、待ち受け状態にならない
+`````````````````````````````````````````````````````````````````````
+
+証明書に有効なポリシーがアタッチされていない可能性があります。AWS IoT上で当該する証明書に有効なPolicyをattachしてください
+
