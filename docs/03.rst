@@ -37,7 +37,7 @@ ElasticsearchのEndpointとKibanaのURLを確認する
 
 Amazon ESのダッシュボードからESのEndpointとKibanaのURLを確認します
 
-.. image:: images/bx1-3_es-dashboard.png
+.. image:: images/bx1_03_es-dashboard.png
 
 テストデータの投入と表示
 ------------------------
@@ -83,7 +83,7 @@ Amazon ESのダッシュボードで得た Kibana のURLにアクセスします
 | Index name or pattern            | es-test        |
 +----------------------------------+----------------+
 
-.. image:: images/bx1-3_kibana1.png
+.. image:: images/bx1_03_kibana1.png
 
 テストデータが正しく投入されていれば "Create" ボタンが押せるようになるはずですので、押してください
 
@@ -91,7 +91,7 @@ Amazon ESのダッシュボードで得た Kibana のURLにアクセスします
 
 ※そうでない場合、テストデータの投入に失敗している可能性があります。コマンドの実行結果等を確認してください
 
-.. image:: images/bx1-3_kibana2.png
+.. image:: images/bx1_03_kibana2.png
 
 
 データを表示する
@@ -99,7 +99,7 @@ Amazon ESのダッシュボードで得た Kibana のURLにアクセスします
 
 "Discover" をクリックするとデータの中身を表示することができます
 
-.. image:: images/bx1-3_kibana3.png
+.. image:: images/bx1_03_kibana3.png
 
 ここまで到達できればゴールです
 
