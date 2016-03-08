@@ -66,6 +66,8 @@ AWS IoTの証明書ファイル・プライベートキーファイル・ルー�
 | root証明書   | ``/var/webui/upload_dir/VeriSign-Class_3-Public-Primary-Certification-Authority-G5.pem`` |
 +--------------+------------------------------------------------------------------------------------------+
 
+TODO: interval
+
 .. note::
 
   * 先のファイルアップロード画面でアップロードされたファイルは BX1内の ``/var/webui/upload_dir/`` にアップロードされます。それ以下のパスを指定することでファイルの読み込みが可能です
