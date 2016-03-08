@@ -176,7 +176,7 @@ Get started Now (もしくはダッシュボードの Create a Lambda function) 
 
 "Test" でLambda functionのテストを実行できます
 
-"Execution result: succeeded" ならばAmazon ESのKibanaで "payload.field: 2" のデータが確認できます
+"Execution result: succeeded" ならばAmazon ESのKibana上で 先ほど投入したテストデータが確認できます ("payload.キー: 値 という形になります")
 
 .. image:: images/bx1_04_kibana.png
 
