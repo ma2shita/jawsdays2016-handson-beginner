@@ -15,7 +15,7 @@ Get started (もしくはダッシュボードの Create a new domain) からAma
 それぞれのステップでは、下記項目を変更するようにしてください (それ以外の項目はデフォルト値でOKです)
 
 +----------------------------------------+---------------------------------+
-| Step1: Elasticsearch domain name       | jawsdays20160312handson         |
+| Step1: Elasticsearch domain name       | ``jawsdays20160312handson``     |
 +----------------------------------------+---------------------------------+
 | Step2: Instance type                   | t2.micro.elasticsearch          |
 +----------------------------------------+---------------------------------+
@@ -51,6 +51,8 @@ Amazon ESが利用可能になったら、動作確認を行います
   * ここでは確認のために ``curl`` コマンドを使用します。準備願います (`Windowsの方向け <http://techblo.hatenablog.com/entry/2015/08/06/214306>`_)
   * ``${YOUR_ES_ENDPOINT}`` は、Amazon ESのダッシュボードで確認した Endpoint に置き換えてください
 
+TODO
+
 .. code-block:: bash
 
   $ cat << EOT | curl -X POST ${YOUR_ES_ENDPOINT}/_bulk --data-binary @-
@@ -66,7 +68,6 @@ Amazon ESが利用可能になったら、動作確認を行います
 
 errors が false なら成功です
 
-
 Kibanaでの表示
 ``````````````
 
@@ -80,7 +81,7 @@ Amazon ESのダッシュボードで得た Kibana のURLにアクセスします
 +----------------------------------+----------------+
 | Index contains time-based events | チェックを外す |
 +----------------------------------+----------------+
-| Index name or pattern            | es-test        |
+| Index name or pattern            | ``es-test``    |
 +----------------------------------+----------------+
 
 .. image:: images/bx1_03_kibana1.png
@@ -92,7 +93,6 @@ Amazon ESのダッシュボードで得た Kibana のURLにアクセスします
 ※そうでない場合、テストデータの投入に失敗している可能性があります。コマンドの実行結果等を確認してください
 
 .. image:: images/bx1_03_kibana2.png
-
 
 データを表示する
 ~~~~~~~~~~~~~~~~
