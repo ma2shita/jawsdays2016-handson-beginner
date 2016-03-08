@@ -208,7 +208,7 @@ AWS Lambdaの実行ログは下記のようになります
 
 #. Amazon ESの Endpoint が間違っていないか確認してください (Amazon ESが起動していない場合も同様)
 
-.. code-block:: plain
+.. code-block:: none
 
   2016-03-06T12:35:56.627Z	f939f4fc-e397-11e5-a054-e124be4befa5	{ [Error: No Living connections] message: 'No Living connections' }
   2016-03-06T12:35:56.627Z	f939f4fc-e397-11e5-a054-e124be4befa5	{"errorMessage":"error"}
