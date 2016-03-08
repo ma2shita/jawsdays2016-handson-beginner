@@ -178,7 +178,7 @@ Get started Now (もしくはダッシュボードの Create a Lambda function) 
 
 "Execution result: succeeded" ならばAmazon ESのKibanaで "payload.field: 2" のデータが確認できます
 
-.. image:: images/bx1-4_kibana.png
+.. image:: images/bx1_04_kibana.png
 
 ここまで到達できればゴールです
 
