@@ -94,14 +94,14 @@ TODO: interval
 
 保存後、即座にAWS IoTへの送信が始まります。Amazon ESのKibanaでデータ受信ができているか確認してください
 
-.. image:: images/bx1_06_kibaba1.png
+.. image:: images/bx1_06_kibana1.png
 
 データの変化を楽しむ
 --------------------
 
 加速度をつかってこんなグラフを作ることできます
 
-.. image:: images/bx1_06_kibaba22.png
+.. image:: images/bx1_06_kibana2.png
 
 センサーのデータ取得間隔が1秒毎となっているため、加速度の数値を変化させたい場合は若干振り続ける等するようにしてください
 

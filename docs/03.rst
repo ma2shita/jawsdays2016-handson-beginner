@@ -52,13 +52,11 @@ Amazon ESが利用可能になったら、動作確認を行います
   * ``date`` コマンドが下記の通り使えない場合は ``2016-03-12T10:10:50+0900`` というフォーマットの日付文字列に置き換えてください
   * ``${YOUR_ES_ENDPOINT}`` は、Amazon ESのダッシュボードで確認した Endpoint に置き換えてください
 
-TODO : tsを修正
-
 .. code-block:: bash
 
     cat << EOT | curl -X POST ${YOUR_ES_ENDPOINT}/_bulk --data-binary @-
     {"index":{"_index":"es-test","_type":"type1","_id":"1"}}
-    {"field1":1,"ts":"$(date +%Y-%m-%dT%H:%M:%S%z)"}
+    {"deviceId":"es-test0","field1":1,"@timestamp":"$(date +%Y-%m-%dT%H:%M:%S%z)"}
     EOT
 
 コマンドの投入結果は下記のようになります
@@ -82,7 +80,7 @@ Amazon ESのダッシュボードで得た Kibana のURLにアクセスします
 +-----------------------+----------------+
 | Index name or pattern | ``es-test``    |
 +-----------------------+----------------+
-| Time-field name       | ts             |
+| Time-field name       | @timestamp     |
 +-----------------------+----------------+
 
 .. image:: images/bx1_03_kibana1.png
