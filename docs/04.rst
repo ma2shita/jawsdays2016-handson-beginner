@@ -98,27 +98,30 @@ index.js
     var aws = require('aws-sdk');
     var elasticsearch = require('elasticsearch');
     var moment = require('moment-timezone');
+    var random = require("random-js")();
 
     var timeObj = moment().tz("Asia/Tokyo");
     var es_index = "es-test";
 
     exports.handler = function(event, context) {
         console.log('Received event:');
+        console.log(event);
+        var payload = event.state.reported; // When you pass through the AWS IoT, become {state: {reported: PAYLOAD}}
         var searchRecords = [];
 
         var header = {
             "index":{
                 "_index": es_index,
                 "_type": 'log',
-                "_id": event.deviceId + '-' + timeObj.format("YYYYMMDDHHmmss")
+                "_id": payload.deviceId + '-' + timeObj.format("YYYYMMDDHHmmss") + '-' + random.hex(8)
             }
         };
         searchRecords.push(header);
 
         var searchRecord = {
-            "deviceId"   : event.deviceId,
+            "deviceId"   : payload.deviceId,
             "@timestamp" : timeObj.format("YYYY-MM-DDTHH:mm:ssZZ"),
-            "payload"    : event
+            "payload"    : payload
         };
         searchRecords.push(searchRecord);
 
@@ -165,12 +168,20 @@ Get started Now (もしくはダッシュボードの Create a Lambda function) 
 
 .. code-block:: json
 
-  { "deviceId": "lambda-test0",
-    "field1" : 2,
-    "field2" : "lambda_test"
-  }
+    { "state":
+      { "reported":
+        { "deviceId": "lambda-test0",
+          "field1" : 2,
+          "field2" : "lambda_test"
+        }
+      }
+    }
 
 .. image:: images/bx1_04_lambda-test.png
+
+.. note::
+
+    ``{state:{reported: {PAYLOAD...}}}`` はAWS IoTからの出力フォーマットに合わせたものです
 
 テストを実行し、Amazon ESでデータを確認する
 ```````````````````````````````````````````

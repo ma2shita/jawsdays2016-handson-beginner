@@ -58,9 +58,34 @@ BX1の初期化
 
 .. code-block:: json
 
+    {
+      "deviceId": "e73a40839d8a",              // BX1の設定画面で設定したデバイスID (BX1で付与)
+      "time": "2016-03-09T18:15:53.764+0900",  // 計測日時 (BX1で付与)
+      "temperature": 27.22,                    // 温度 ℃
+      "accelX": 0.092,                         // X方向 加速度 G
+      "accelY": -0.952,                        // Y方向 加速度 G
+      "accelZ": -0.113                         // Z方向 加速度 G
+    }
 
-TI 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+また、AWS IoTのDevice shadowで取得すると ``state`` 等、AWS IoTの属性が付与されます
+
+.. code-block:: json
+
+    {
+      "state": {
+        "reported": {
+          "deviceId": "e73a40839d8a",
+          "time": "2016-03-09T18:15:53.764+0900",
+          "temperature": 27.22,
+          "accelX": 0.092,
+          "accelY": -0.952,
+          "accelZ": -0.113
+        }
+      }
+    }
+
+Texas Instruments社製 多機能/開発用センサー sensorTag CC2541
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: json
 
