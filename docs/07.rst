@@ -125,7 +125,7 @@ FTDIのシリアルポートドライバがインストール済みのWindows / 
 
 e.g.) screen コマンドによるアクセス
 
-.. code-block:: note
+.. code-block:: none
 
   screen /dev/ttyUSB0 115200
 
