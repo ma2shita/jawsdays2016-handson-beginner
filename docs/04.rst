@@ -164,14 +164,20 @@ Get started Now (もしくはダッシュボードの Create a Lambda function) 
 
 [Actions] - [Configure test event] に下記JSONを入力して "Save" してください
 
-TODO
+TODO : tsの修正
 
 .. code-block:: json
 
-  { "deviceId": "es-test0",
+  { "deviceId": "test-device0",
     "field1" : 2,
-    "field2" : "str_data"
+    "field2" : "lambda_test"
+    "ts" : "2016-03-12T10:00:00+0900"
   }
+
+
+.. note::
+
+    ``ts`` の値である日付は、適当に修正してください
 
 テストを実行し、Amazon ESでデータを確認する
 ```````````````````````````````````````````
