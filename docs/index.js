@@ -26,7 +26,8 @@ exports.handler = function(event, context) {
 	searchRecords.push(header);
 
 	var searchRecord = {
-		"@timestamp" : timeObj.format("YYYY-MM-DD HH:mm:ss"),
+		"deviceId"   : event.deviceId,
+		"@timestamp" : timeObj.format("YYYY-MM-DDTHH:mm:ssZZ"),
 		"payload"    : event
 	};
 	searchRecords.push(searchRecord);
