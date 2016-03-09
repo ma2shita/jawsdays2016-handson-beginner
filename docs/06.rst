@@ -5,7 +5,7 @@ BX1とAWS IoTの接続
 
 作業の位置づけ;
 
-.. image:: images/bx1_06_highlevelarchitecture.png
+.. image:: images/bx1_06_overview.png
 
 準備
 ----

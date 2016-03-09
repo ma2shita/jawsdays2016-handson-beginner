@@ -5,7 +5,7 @@ Amazon ESのインスタンス作成と設定
 
 作業の位置づけ;
 
-.. image:: images/bx1_03_highlevelarchitecture.png
+.. image:: images/bx1_03_overview.png
 
 Amazon ESのクラスタを作成
 -------------------------

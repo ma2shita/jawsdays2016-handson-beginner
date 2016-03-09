@@ -5,7 +5,7 @@ OpenBlocks IoT BX1 (以下 BX1) を使用し、富士通コンポーネント社
 
 全体構成図と流れは以下のようになります
 
-.. image:: images/bx1_00_highlevelarchitecture.png
+.. image:: images/bx1_00_overview.png
 
 #. :doc:`01`
 #. :doc:`02`

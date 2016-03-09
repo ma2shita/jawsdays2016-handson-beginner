@@ -5,7 +5,7 @@
 
 作業の位置づけ;
 
-.. image:: images/bx1_02_highlevelarchitecture.png
+.. image:: images/bx1_02_overview.png
 
 センサーをBX1に登録する
 -----------------------

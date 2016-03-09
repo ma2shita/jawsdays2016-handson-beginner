@@ -5,7 +5,7 @@ AWS IoTの設定
 
 作業の位置づけ;
 
-.. image:: images/bx1_05_highlevelarchitecture.png
+.. image:: images/bx1_05_overview.png
 
 概要
 ----

@@ -5,7 +5,7 @@ BX1のWi-Fi AP設定とSORACOM Air(3Gネットワーク)設定
 
 作業の位置づけ;
 
-.. image:: images/bx1_01_highlevelarchitecture.png
+.. image:: images/bx1_01_overview.png
 
 BX1の取り扱い (電源ON/OFF・再起動、SIM挿入)
 -------------------------------------------
