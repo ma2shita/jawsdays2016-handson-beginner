@@ -53,7 +53,6 @@ http://aws.amazon.com/jp/register-flow/
 
   * 貸し出し物 (返却いただきます)
 
-    * ハンズオン パラメータシート x 1枚
     * OpenBlocks IoT BX1 x 1ケ
     * BX1用 電源兼シリアルコンソール USBケーブル x 1本
     * センサーデバイス FWM8BLZ02 (電池入り) x 1ケ

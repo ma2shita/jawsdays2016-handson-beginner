@@ -70,7 +70,7 @@ function.zip作成の一連の作業
 
     $ mkdir TMP ; cd TMP
     ##>> create index.js <<##
-    $ npm install elasticsearch moment-timezone
+    $ npm install elasticsearch moment-timezone random-js
     $ zip -r function.zip *
 
 index.js
