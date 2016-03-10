@@ -21,3 +21,15 @@ OpenBlocks IoT BX1 (以下 BX1) を使用し、富士通コンポーネント社
    07
 
 :doc:`00` へ進む
+
+時間配分
+~~~~~~~~
+
+#. [30m] BX1のWi-Fi AP設定とSORACOM Air(3Gネットワーク)設定
+#. [15m] センサーとBX1の接続
+#. [10m] Amazon ESのインスタンス作成と設定
+#. [20m] AWS LambdaのLambda function作成
+#. [30m] AWS IoTの設定
+#. [30m] BX1とAWS IoTの接続
+#. [15m] あとかたづけ
+
