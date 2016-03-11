@@ -175,10 +175,6 @@ AWS IoTにはMQTTクライアントツールがあり、それを使って簡単
 | Payload       | ``{"state":{"reported":{"deviceId":"awsiot-test0","field1":3,"field2":"from aws iot"}}}`` |
 +---------------+-------------------------------------------------------------------------------------------+
 
-.. note::
-
-    ``@timestamp`` の値(日付の文字列)は適当に修正してください
-
 .. image:: images/bx1_05_awsiot_mqtt_client.png
 
 Kibana上に上記payloadのデータが入っていれば成功です

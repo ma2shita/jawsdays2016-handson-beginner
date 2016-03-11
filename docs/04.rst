@@ -58,105 +58,96 @@ IAMコンソールのロール一覧から "新しいロールの作成" をク�
       ]
     }
 
-function.zipの作成
-------------------
-
-今回のLambda functionはnpmモジュールを同梱する必要があるため、まずNode.jsとnpmが動作する環境で node_modules をインストールし、一式をzip化した後で、AWSのコンソールからアップロードするというアプローチを行います
-
-function.zip作成の一連の作業
-````````````````````````````
-
-.. code-block:: bash
-
-    $ mkdir TMP ; cd TMP
-    ##>> create index.js <<##
-    $ npm install elasticsearch moment-timezone random-js
-    $ zip -r function.zip *
-
-index.js
-````````
-
-.. warning::
-
-  下記コード内の YOUR_ES_ENDPOINT はAmazon ESのダッシュボードで得た Endpoint に書き換えるようにしてください
-
-.. note::
-
-  Amazon ESのインスタンス作成が完了してない場合は、とりあえず YOUR_ES_ENDPOINT のままにして function.zip をアップロードし、その他の確認を終えた後、再度 Endpoint を指定して再アップロードする方法があります
-
-:download:`index.jsをダウンロードする <index.js>`
-
-.. code-block:: javascript
-
-    var es_endpoint = "YOUR_ES_ENDPOINT";
-    /* e.g.) var es_endpoint = "search-jawsdays20160312handson-***.ap-northeast-1.es.amazonaws.com"; */
-
-    /* requirement for input data
-     * 1. include "deviceId" key and value (Use for doc id of ES)
-     */
-
-    var aws = require('aws-sdk');
-    var elasticsearch = require('elasticsearch');
-    var moment = require('moment-timezone');
-    var random = require("random-js")();
-
-    var timeObj = moment().tz("Asia/Tokyo");
-    var es_index = "es-test";
-
-    exports.handler = function(event, context) {
-        console.log('Received event:');
-        console.log(event);
-        var payload = event.state.reported; // When you pass through the AWS IoT, become {state: {reported: PAYLOAD}}
-        var searchRecords = [];
-
-        var header = {
-            "index":{
-                "_index": es_index,
-                "_type": 'log',
-                "_id": payload.deviceId + '-' + timeObj.format("YYYYMMDDHHmmss") + '-' + random.hex(8)
-            }
-        };
-        searchRecords.push(header);
-
-        var searchRecord = {
-            "deviceId"   : payload.deviceId,
-            "@timestamp" : timeObj.format("YYYY-MM-DDTHH:mm:ssZZ"),
-            "payload"    : payload
-        };
-        searchRecords.push(searchRecord);
-
-        console.log(searchRecords);
-        var es = new elasticsearch.Client({host: es_endpoint}); 
-        es.bulk({
-            "body": searchRecords
-        }, function(err, resp){
-            if(err){
-                console.log(err);
-                context.done("error" ,err);
-            }else{
-                console.log("Success");
-                console.log(JSON.stringify(resp));
-                context.done(null, 'success');
-            }
-        });
-    };
+以上でロールの作成は完了です
 
 AWS Lambda function作成
 -----------------------
 
-Get started Now (もしくはダッシュボードの Create a Lambda function) から開始します
+Lambdaのコンソールから Get started Now (もしくはダッシュボードの Create a Lambda function) から開始します
 
 テンプレート選択画面では "Skip" を選択し、コード入力画面に遷移し、それぞれ下記の通り入力します
 
-+----------------------+-----------------------------------------------------------+
-| Name                 | ``jawsdays20160312_to_es``                                |
-+----------------------+-----------------------------------------------------------+
-| Description          | ``Convert from AWS IoT Data to Amazon ES``                |
-+----------------------+-----------------------------------------------------------+
-| Lambda function code | Upload a .ZIP file を選択 => 作成したfunction.zipをUpload |
-+----------------------+-----------------------------------------------------------+
-| Role                 | ``jawsdays20160312_lambda_exec``                          |
-+----------------------+-----------------------------------------------------------+
++----------------------+---------------------------------------------------------------------+
+| Name                 | ``jawsdays20160312_to_es``                                          |
++----------------------+---------------------------------------------------------------------+
+| Description          | ``Convert from AWS IoT Data to Amazon ES``                          |
++----------------------+---------------------------------------------------------------------+
+| Runtime              | Python 2.7                                                          |
++----------------------+---------------------------------------------------------------------+
+| Lambda function code | [Edit code inline] にチェックをつけ、後述のpythonコードを貼り付ける |
++----------------------+---------------------------------------------------------------------+
+| Role                 | ``jawsdays20160312_lambda_exec``                                    |
++----------------------+---------------------------------------------------------------------+
+
+貼り付けるPythonコード
+``````````````````````
+
+.. warning::
+
+  貼付け時にコード内の **YOUR_ES_ENDPOINT** はAmazon ESのダッシュボードで得た Endpoint に書き換えるようにしてください
+
+.. note::
+
+  Amazon ESのインスタンス作成が完了してない場合は、とりあえず YOUR_ES_ENDPOINT のまま進め、その他の確認を終えた後に再度 Endpoint を指定して保存する方法があります
+  
+.. code-block:: python
+
+    ## example) es_endpoint = "search-jawsdays20160312handson-***.ap-northeast-1.es.amazonaws.com"
+    es_endpoint = "YOUR_ES_ENDPOINT"
+
+    es_index = "es-test"
+    es_type  = "awsiot0"
+
+    # REF: https://docs.aws.amazon.com/ja_jp/lambda/latest/dg/python-logging.html
+    import logging
+    logger = logging.getLogger()
+    logger.setLevel(logging.DEBUG)
+
+    http_req_headers = {
+        "pragma"      : "no-cache",
+        "content-type": "application/json"
+    }
+
+    # REF: http://takatoshiono.hatenablog.com/entry/2014/12/18/192726
+    from datetime import timedelta, tzinfo
+    class JST(tzinfo):
+        def utcoffset(self, dt):
+            return timedelta(hours=9)
+        def dst(self, dt):
+            return timedelta(0)
+        def tzname(self, dt):
+            return "JST"
+    # Usage;
+    from datetime import datetime
+    #print datetime.now(tz=JST()).strftime("%Y-%m-%dT%H:%M:%S%z")
+
+    import urllib2, json
+    def lambda_handler(event, context):
+        logger.info('got event: {}'.format(event))
+        body = []
+
+        es_bulk_header = {"index": {}}
+        body.append(es_bulk_header)
+
+        payload = event["state"]["reported"] # When data of client pass through the AWS IoT, become {state: {reported: {PAYLOAD}}}
+        es_bulk_row = {
+            "deviceId"  : payload["deviceId"],
+            "@timestamp": datetime.now(tz=JST()).strftime("%Y-%m-%dT%H:%M:%S%z"),
+            "payload"   : payload
+        }
+        body.append(es_bulk_row)
+
+        post_body = "\n".join(map(json.dumps, body)) + "\n"
+        logger.debug('post_body: {}'.format(post_body))
+
+        # REF: http://takuya-1st.hatenablog.jp/entry/2014/08/23/023707
+        invoke_url = "http://" + "/".join([es_endpoint, es_index, es_type, "_bulk"])
+        logger.debug('invoke url: {}'.format(invoke_url))
+        req = urllib2.Request(invoke_url, post_body, http_req_headers)
+        res = urllib2.urlopen(req)
+        logger.info('res body   :{}'.format(res.read()))
+
+        return "done"
 
 テスト
 ------
@@ -188,7 +179,7 @@ Get started Now (もしくはダッシュボードの Create a Lambda function) 
 
 "Test" でLambda functionのテストを実行できます
 
-"Execution result: succeeded" ならばAmazon ESのKibana上で 先ほど投入したテストデータが確認できます ("payload.キー: 値 という形になります")
+"Execution result: succeeded" (グレー部分には "done") の表示が出れば、Amazon ESのKibana上で今投入したテストデータが確認できます ("payload.キー: 値 という形になります")
 
 .. image:: images/bx1_04_kibana.png
 
@@ -199,16 +190,18 @@ Get started Now (もしくはダッシュボードの Create a Lambda function) 
 トラブルシュート
 ----------------
 
-AWS Lambdaへのアップロード失敗
-``````````````````````````````
+コードの保存失敗
+````````````````
 
-たまにアップロードミスが発生します (赤い警告枠)
+たまに [Save] が失敗することがあります
 
-#. index.js の文法チェックを行ってください
+#. Pythonコードの文法をチェックしてみてください
 #. 再度アップロードを実行してみてください
 
 Lambda functionの実行失敗
 `````````````````````````
+
+CloudWatchにLambdaの実行ログが表示されています
 
 #. ロールは適切に作成されていますか？
 #. ログが出ない場合、ポリシーは適切に設定されていますか？
@@ -216,12 +209,22 @@ Lambda functionの実行失敗
 Amazon ESへの接続失敗
 `````````````````````
 
-AWS Lambdaの実行ログは下記のようになります
+Amazon ESが立ち上がっていなかったり、Endpointが間違ってたりすると接続エラーが発生します
 
-#. Amazon ESの Endpoint が間違っていないか確認してください (Amazon ESが起動していない場合も同様)
+その場合のAWS Lambdaの実行ログは下記のようになります
 
 .. code-block:: none
 
-  2016-03-06T12:35:56.627Z	f939f4fc-e397-11e5-a054-e124be4befa5	{ [Error: No Living connections] message: 'No Living connections' }
-  2016-03-06T12:35:56.627Z	f939f4fc-e397-11e5-a054-e124be4befa5	{"errorMessage":"error"}
+    <urlopen error [Errno -2] Name or service not known>: URLError
+    Traceback (most recent call last):
+      File "/var/task/lambda_function.py", line 51, in lambda_handler
+        res = urllib2.urlopen(req)
+
+#. Amazon ESが起動しているか確認してください
+#. Amazon ESの Endpoint が間違っていないか確認してください
+
+Amazon ESにデータが出ない
+`````````````````````````
+
+#. テストデータの形式確認してみてください
 

@@ -14,15 +14,21 @@ Get started (もしくはダッシュボードの Create a new domain) からAma
 
 それぞれのステップでは、下記項目を変更するようにしてください (それ以外の項目はデフォルト値でOKです)
 
-+----------------------------------------+---------------------------------+
-| Step1: Elasticsearch domain name       | ``jawsdays20160312handson``     |
-+----------------------------------------+---------------------------------+
-| Step2: Instance type                   | t2.micro.elasticsearch          |
-+----------------------------------------+---------------------------------+
-| Step2: Storage type                    | EBS                             |
-+----------------------------------------+---------------------------------+
-| Step3: Set the domain access policy to | Allow open access to the domain |
-+----------------------------------------+---------------------------------+
++---------------------------------+-----------------------------------------------+
+|  Elasticsearch domain name      | ``jawsdays20160312handson``                   |
++---------------------------------+-----------------------------------------------+
+|  ＞ [Next] を押して次のステップへ                                               |
++---------------------------------+-----------------------------------------------+
+|  Instance type                  | t2.micro.elasticsearch                        |
++---------------------------------+-----------------------------------------------+
+|  Storage type                   | EBS                                           |
++---------------------------------+-----------------------------------------------+
+|  ＞ [Next] を押して次のステップへ                                               |
++---------------------------------+-----------------------------------------------+
+| Set the domain access policy to | Allow open access to the domain               |
++---------------------------------+-----------------------------------------------+
+|  ＞ [Next] を押すと確認画面がでるので、確認後 [Confirm and create] で作成します |
++---------------------------------+-----------------------------------------------+
 
 .. warning::
 
@@ -52,18 +58,21 @@ Amazon ESが利用可能になったら、動作確認を行います
   * ``date`` コマンドが下記の通り使えない場合は ``2016-03-12T10:10:50+0900`` というフォーマットの日付文字列に置き換えてください
   * ``${YOUR_ES_ENDPOINT}`` は、Amazon ESのダッシュボードで確認した Endpoint に置き換えてください
 
-.. code-block:: bash
+.. code-block:: console
 
-    cat << EOT | curl -X POST ${YOUR_ES_ENDPOINT}/_bulk --data-binary @-
-    {"index":{"_index":"es-test","_type":"type1","_id":"1"}}
-    {"deviceId":"es-test0","field1":1,"@timestamp":"$(date +%Y-%m-%dT%H:%M:%S%z)"}
-    EOT
+    curl -X PUT ${YOUR_ES_ENDPOINT}/es-test/es0/1 -d "{\"deviceId\":\"es-test0\",\"field1\":1,\"@timestamp\":\"$(date +%Y-%m-%dT%H:%M:%S%z)\"}"
+
+Windowsの方: 下記の通りダブルクオーテーションのエスケープを変更してください
+
+.. code-block:: doscon
+
+    curl -X PUT ${YOUR_ES_ENDPOINT}/es-test/es0/1 -d "{""deviceId"":""es-test0"",""field1"":1,""@timestamp"":""2016-03-12T10:10:50+0900""}"
 
 コマンドの投入結果は下記のようになります
 
 .. code-block:: json
 
-    {"took":403,"errors":false,"items":[{"index":{"_index":"es-test","_type":"type1","_id":"1","_version":1,"status":201}}]}
+    {"_index":"es-test","_type":"es0","_id":"1","_version":1,"created":true}
 
 errors が false なら成功です
 
