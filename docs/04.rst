@@ -63,7 +63,7 @@ IAMコンソールのロール一覧から "新しいロールの作成" をク�
 AWS Lambda function作成
 -----------------------
 
-Lambdaのコンソールから Get started Now (もしくはダッシュボードの Create a Lambda function) から開始します
+Lambdaのコンソールから Get started Now もしくは Create a Lambda function から開始します
 
 テンプレート選択画面では "Skip" を選択し、コード入力画面に遷移し、それぞれ下記の通り入力します
 
